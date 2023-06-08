@@ -1,0 +1,56 @@
+RAID 5
+LVM2
+Point de montage systemd
+
+
+>> sudo apt update
+>> sudo apt upgrade
+>> lsblk
+>> sudo apt install mdadm
+>> sudo apt install parted
+>> sudo parted /dev/sdb
+  ...
+
+-----
+>> sudo mdadm --examine /dev/sd[bcd]
+>> sudo mdadm --examine /dev/sd[bcd]1
+>> sudo mdadm --create /dev/md0 --level=5 --raid-devices=3 /dev/sd[bcd]1
+>> lsblk
+
+-----
+>> sudo apt install lvm2
+>> sudo vgcreate data /dev/md0
+>> sudo vgdisplay
+>> sudo lvcreate --name voldata01 --size 30g data
+>> sudo lvdisplay
+>> sudo apt install btrfs-progs
+>> sudo apt install btrfs-progs
+>> sudo mkfs --type btrfs /dev/data/voldata01
+>> sudo mkdir --verbose /mnt/voldata01
+>> sudo mount /dev/data/voldata01 /mnt/voldata01/
+>> cd /mnt/voldata01/
+>> ls -ld
+>> sudo chmod --verbose 777 .
+
+-----
+>> sudo /etc/fstab
+   /dev/data/voldata01	/mnt/data/voldata01	  btrfs		defaults 	0	0
+
+ou
+>> sudo nano /etc/systemd/system/mnt-voldata01.mount
+  [Unit]
+  Description=Point de montage /mnt/data/voldata01
+
+  [Mount]
+  What=/dev/data/voldata01
+  Where=/mnt/data/voldata01
+  Type=btrfs
+  Options=defaults
+
+  [Install]
+  WantedBy=multi-user.target
+>> sudo systemctl daemon-reload
+>> sudo systemctl status mnt-voldata01.mount
+>> sudo systemctl enable mnt-voldata01.mount
+
+
