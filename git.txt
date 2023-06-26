@@ -1,0 +1,28 @@
+git bash
+
+git init
+git clone https://githu.com/...
+
+Identificaion pour le lien avec le reférentiel distant
+git config --global user.name ...
+git config --global user.email ...
+
+git remote add origin https://github.com/lcsavard/web01.git
+git config --list
+
+Ajout, supression et modification de fichiers
+git add *
+git add .
+git add --all
+git add bill.txt
+
+Empaquetage
+git commit -m 'Message'
+
+Envoi sur le github
+git push -u origin main
+
+
+
+
+
